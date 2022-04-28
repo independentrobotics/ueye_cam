@@ -154,7 +154,7 @@ struct CameraParameters {
   const static std::set<std::string> ReallocateBufferSet;
 
   CameraParameters():
-    image_width(640), image_height(480),
+    image_width(1920), image_height(1080),
     image_left(-1), image_top(-1),
     color_mode(ColorMode::MONO8),
     subsampling(SubSamplingRatio::SUB_1X),     // supported by only some UEye cameras
@@ -162,15 +162,15 @@ struct CameraParameters {
     sensor_scaling(SensorScalingRatio::SS_1X), // supported by only some UEye cameras
     auto_gain(false),
     master_gain(0),
-    red_gain(0),
+    red_gain(31),
     green_gain(0),
-    blue_gain(0),
+    blue_gain(45),
     gain_boost(false),
-    software_gamma(100),
+    software_gamma(230),
     auto_exposure(false),
     auto_exposure_reference(128.0),
-    exposure(33.0),
-    auto_white_balance(false),
+    exposure(66.0),
+    auto_white_balance(true),
     white_balance_red_offset(0),
     white_balance_blue_offset(0),
     flash_delay(0),
@@ -182,8 +182,8 @@ struct CameraParameters {
     pwm_freq(1.0),
     pwm_duty_cycle(0.5),
     auto_frame_rate(false),
-    frame_rate(10.0),
-    pixel_clock(25),
+    frame_rate(15.0),
+    pixel_clock(150),
     flip_vertical(false),
     flip_horizontal(false)
   {}

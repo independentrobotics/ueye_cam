@@ -50,6 +50,9 @@
 #include <iomanip>
 #include <memory>
 #include <sstream>
+#include <opencv2/opencv.hpp>
+#include <cv_bridge/cv_bridge.h>
+
 
 #include <camera_calibration_parsers/parse.hpp>
 #include <rcl_interfaces/msg/parameter_type.hpp>
@@ -64,7 +67,8 @@
 /*****************************************************************************
  ** Namespaces
  *****************************************************************************/
-
+	
+using namespace cv;
 namespace ueye_cam
 {
 
@@ -90,6 +94,7 @@ const std::map<int, std::string> Node::ENCODING_DICTIONARY = {
     { IS_CM_RGB12_UNPACKED, sensor_msgs::image_encodings::RGB16 },
     { IS_CM_BGR12_UNPACKED, sensor_msgs::image_encodings::BGR16 }
 };
+
 
 /*****************************************************************************
  ** Utilities
@@ -501,6 +506,19 @@ void Node::frameGrabLoop() {
 
         if (!frame_grab_alive_ || !rclcpp::ok()) break;
 
+        // RESIZE IMAGE USING OPENCV
+        // int down_width = 800;
+        // int down_height = 600;
+
+        // cv_bridge::CvImagePtr cv_ptr;
+        // cv_ptr = cv_bridge::toCvCopy(img_msg_ptr, sensor_msgs::image_encodings::RGB8); 
+        // Mat resized_down;
+
+        // resize(cv_ptr->image, resized_down, Size(down_width, down_height), INTER_LINEAR);
+        // cv_ptr->image = resized_down;
+
+        // ros_cam_pub_.publish(cv_ptr->toImageMsg(), cam_info_msg_ptr);
+        
         ros_cam_pub_.publish(img_msg_ptr, cam_info_msg_ptr);
       }
     } else {

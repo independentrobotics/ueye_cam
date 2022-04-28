@@ -21,6 +21,8 @@ ament_target_dependencies(
     rclcpp
     rclcpp_components
     sensor_msgs
+    OpenCV
+    cv_bridge
 )
 
 # Modern CMake Linking
