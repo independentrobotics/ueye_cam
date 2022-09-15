@@ -167,7 +167,7 @@ struct CameraParameters {
     blue_gain(45),
     gain_boost(false),
     software_gamma(230),
-    auto_exposure(false),
+    auto_exposure(true),
     auto_exposure_reference(128.0),
     exposure(66.0),
     auto_white_balance(true),

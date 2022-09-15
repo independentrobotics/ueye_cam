@@ -6,12 +6,12 @@
 ueye_cam:
   ros__parameters:
     # Node parameters: for defaults, ueye_cam/node_parameters.hpp
-    camera_name: ir_camera_front_left
-    frame_name: ir_camera_front_left
+    camera_name: aqua_fl_cam
+    frame_name: aqua_fl_cam
     camera_id: 1                # 0 : ANY_CAMERA
     # Camera parameters: for defaults, ueye_cam/camera_parameters.hpp
     auto_frame_rate: false
-    frame_rate: 15.0
+    frame_rate: 30.0
     color_mode: rgb8
     auto_gain: false
     auto_white_balance: true

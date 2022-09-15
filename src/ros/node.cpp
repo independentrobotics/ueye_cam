@@ -346,7 +346,7 @@ void Node::frameGrabLoop() {
   rclcpp::Rate idleDelay(200);
 
   int prevNumSubscribers = 0;
-  unsigned int currNumSubscribers = 0;
+  // unsigned int currNumSubscribers = 0;
   while (frame_grab_alive_ && rclcpp::ok()) {
 
     // Disable interactive parameters
@@ -361,11 +361,12 @@ void Node::frameGrabLoop() {
 
     // Workaround for https://github.com/ros-perception/image_common/issues/114. Reinstate the line below when fixed.
     // currNumSubscribers = ros_cam_pub_.getNumSubscribers();
-    currNumSubscribers = std::max(
-      this->count_subscribers(ros_cam_pub_.getTopic()),
-      this->count_subscribers(ros_cam_pub_.getInfoTopic())
-    );
-    if (currNumSubscribers > 0 && prevNumSubscribers <= 0) {
+    // currNumSubscribers = std::max(
+    //   this->count_subscribers(ros_cam_pub_.getTopic()),
+    //   this->count_subscribers(ros_cam_pub_.getInfoTopic())
+    // );
+    // if (currNumSubscribers > 0 && prevNumSubscribers <= 0) {
+    if (prevNumSubscribers <= 0) {
       // Reset reference time to prevent throttling first frame
       output_rate_mutex_.lock();
       init_publish_time_ = this->now();
@@ -403,18 +404,20 @@ void Node::frameGrabLoop() {
 
         RCLCPP_INFO(this->get_logger(), "switched to streaming (free-run) mode on camera '%s'", node_parameters_.camera_name.c_str());
       }
-    } else if (currNumSubscribers <= 0 && prevNumSubscribers > 0) {
-      std::lock_guard<std::mutex> guard{parameter_mutex_};
-      if (setStandbyMode() != IS_SUCCESS) {
-        std::ostringstream ostream;
-        ostream << "failed to set standby mode on camera '" << node_parameters_.camera_name << "', aborting.";
-        RCLCPP_FATAL(this->get_logger(), "%s", ostream.str().c_str());
-        rclcpp::shutdown();
-        return;
-      }
-      RCLCPP_INFO(this->get_logger(), "switched to standby mode on camera '%s'", node_parameters_.camera_name.c_str());
     }
-    prevNumSubscribers = currNumSubscribers;
+    // } else if (currNumSubscribers <= 0 && prevNumSubscribers > 0) {
+    //   std::lock_guard<std::mutex> guard{parameter_mutex_};
+    //   if (setStandbyMode() != IS_SUCCESS) {
+    //     std::ostringstream ostream;
+    //     ostream << "failed to set standby mode on camera '" << node_parameters_.camera_name << "', aborting.";
+    //     RCLCPP_FATAL(this->get_logger(), "%s", ostream.str().c_str());
+    //     rclcpp::shutdown();
+    //     return;
+    //   }
+    //   RCLCPP_INFO(this->get_logger(), "switched to standby mode on camera '%s'", node_parameters_.camera_name.c_str());
+    // }
+    // prevNumSubscribers = currNumSubscribers;
+    prevNumSubscribers = 1;
 
 #ifdef DEBUG_PRINTOUT_FRAME_GRAB_RATES
     startGrabCount++;
@@ -507,19 +510,19 @@ void Node::frameGrabLoop() {
         if (!frame_grab_alive_ || !rclcpp::ok()) break;
 
         // RESIZE IMAGE USING OPENCV
-        // int down_width = 800;
-        // int down_height = 600;
+        int down_width = 800;
+        int down_height = 600;
 
-        // cv_bridge::CvImagePtr cv_ptr;
-        // cv_ptr = cv_bridge::toCvCopy(img_msg_ptr, sensor_msgs::image_encodings::RGB8); 
-        // Mat resized_down;
+        cv_bridge::CvImagePtr cv_ptr;
+        cv_ptr = cv_bridge::toCvCopy(img_msg_ptr, sensor_msgs::image_encodings::RGB8); 
+        Mat resized_down;
 
-        // resize(cv_ptr->image, resized_down, Size(down_width, down_height), INTER_LINEAR);
-        // cv_ptr->image = resized_down;
+        resize(cv_ptr->image, resized_down, Size(down_width, down_height), INTER_LINEAR);
+        cv_ptr->image = resized_down;
 
-        // ros_cam_pub_.publish(cv_ptr->toImageMsg(), cam_info_msg_ptr);
+        ros_cam_pub_.publish(cv_ptr->toImageMsg(), cam_info_msg_ptr);
         
-        ros_cam_pub_.publish(img_msg_ptr, cam_info_msg_ptr);
+        // ros_cam_pub_.publish(img_msg_ptr, cam_info_msg_ptr);
       }
     } else {
         init_ros_time_ = this->now();
