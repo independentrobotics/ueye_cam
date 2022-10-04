@@ -12,6 +12,6 @@ ueye_cam:
     # Camera parameters: for defaults, ueye_cam/camera_parameters.hpp
     auto_frame_rate: false
     frame_rate: 30.0
-    color_mode: rgb8
+    color_mode: mono8
     auto_gain: false
     auto_white_balance: true

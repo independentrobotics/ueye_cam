@@ -58,6 +58,8 @@
 #include <rcl_interfaces/msg/parameter_type.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_components/register_node_macro.hpp>
+#include <rmw/qos_profiles.h>
+#include <rclcpp/qos.hpp>
 #include <ueye_cam/camera_driver.hpp>
 #include <sensor_msgs/image_encodings.hpp>
 
@@ -509,12 +511,13 @@ void Node::frameGrabLoop() {
 
         if (!frame_grab_alive_ || !rclcpp::ok()) break;
 
-        // RESIZE IMAGE USING OPENCV
+        // // RESIZE IMAGE USING OPENCV
         int down_width = 800;
         int down_height = 600;
 
         cv_bridge::CvImagePtr cv_ptr;
-        cv_ptr = cv_bridge::toCvCopy(img_msg_ptr, sensor_msgs::image_encodings::RGB8); 
+        //cv_ptr = cv_bridge::toCvCopy(img_msg_ptr, sensor_msgs::image_encodings::RGB8); 
+        cv_ptr = cv_bridge::toCvCopy(img_msg_ptr, sensor_msgs::image_encodings::MONO8); 
         Mat resized_down;
 
         resize(cv_ptr->image, resized_down, Size(down_width, down_height), INTER_LINEAR);

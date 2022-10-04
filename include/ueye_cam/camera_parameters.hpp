@@ -155,6 +155,7 @@ struct CameraParameters {
 
   CameraParameters():
     image_width(1920), image_height(1080),
+    //image_width(800), image_height(600),
     image_left(-1), image_top(-1),
     color_mode(ColorMode::MONO8),
     subsampling(SubSamplingRatio::SUB_1X),     // supported by only some UEye cameras
@@ -182,7 +183,7 @@ struct CameraParameters {
     pwm_freq(1.0),
     pwm_duty_cycle(0.5),
     auto_frame_rate(false),
-    frame_rate(15.0),
+    frame_rate(30.0),
     pixel_clock(150),
     flip_vertical(false),
     flip_horizontal(false)
