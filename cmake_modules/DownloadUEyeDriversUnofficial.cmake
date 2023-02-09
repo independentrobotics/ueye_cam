@@ -30,6 +30,7 @@ function(download_ueye_drivers UEYE_LIBRARY UEYE_INCLUDE_DIR)
     set (UEYE_ARCH "arm64")
   endif ()
 
+  message(WARNING "About to download unofficial drivers")
   # Set download path (credits due to ueye ROS package developers)
   set (UEYE_ARCHIVE uEye_SDK_${UEYE_ARCH}.tar.gz)
   if (UEYE_ARCH STREQUAL "amd64")

@@ -255,7 +255,7 @@ Node::Node(const rclcpp::NodeOptions & options):
   }
 
   startFrameGrabber();   // Ready to go!
-  printConfiguration();  // debugging
+  // printConfiguration();  // debugging
 
   /******************************************
    * Dynamic Parameters
@@ -516,8 +516,8 @@ void Node::frameGrabLoop() {
         int down_height = 600;
 
         cv_bridge::CvImagePtr cv_ptr;
-        //cv_ptr = cv_bridge::toCvCopy(img_msg_ptr, sensor_msgs::image_encodings::RGB8); 
-        cv_ptr = cv_bridge::toCvCopy(img_msg_ptr, sensor_msgs::image_encodings::MONO8); 
+        cv_ptr = cv_bridge::toCvCopy(img_msg_ptr, sensor_msgs::image_encodings::RGB8); 
+        //cv_ptr = cv_bridge::toCvCopy(img_msg_ptr, sensor_msgs::image_encodings::MONO8); 
         Mat resized_down;
 
         resize(cv_ptr->image, resized_down, Size(down_width, down_height), INTER_LINEAR);
@@ -922,9 +922,9 @@ rcl_interfaces::msg::SetParametersResult Node::onParameterChange(std::vector<rcl
   }
 
   // Don't print the updated configuration if it's just the export_ids_configuration flag setting/resetting
-  if ( (! changed_node_parameters.empty()) || (!changed_parameters.empty()) ) {
-    printConfiguration(); // debugging
-  }
+  // if ( (! changed_node_parameters.empty()) || (!changed_parameters.empty()) ) {
+  //   printConfiguration(); // debugging
+  // }
   return result;
 }
 
