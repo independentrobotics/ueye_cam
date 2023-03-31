@@ -6,8 +6,7 @@
 ueye_cam:
   ros__parameters:
     # Node parameters: for defaults, ueye_cam/node_parameters.hpp
-    camera_name: aqua_fr_cam
-    frame_name: aqua_fr_cam
+    camera_name: cameras/right
     camera_id: 2                # 0 : ANY_CAMERA
     # Camera parameters: for defaults, ueye_cam/camera_parameters.hpp
     auto_frame_rate: false

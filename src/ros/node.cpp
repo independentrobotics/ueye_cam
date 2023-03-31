@@ -294,7 +294,7 @@ void Node::setupROSCommunications() {
   // Setup publishers, subscribers, and services
   auto local_node = this->create_sub_node(this->get_name());
   image_transport::ImageTransport it(local_node);
-  ros_cam_pub_ = it.advertiseCamera(std::string(this->get_name()) + "/" + node_parameters_.camera_name + "/" + node_parameters_.topic_name, 1);
+  ros_cam_pub_ = it.advertiseCamera(node_parameters_.camera_name + "/" + node_parameters_.topic_name, 1);
   set_cam_info_srv_ = local_node->create_service<sensor_msgs::srv::SetCameraInfo>(
       node_parameters_.camera_name + "/set_camera_info",
       std::bind(&Node::setCamInfo, this, std::placeholders::_1, std::placeholders::_2)
